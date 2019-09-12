@@ -9,32 +9,36 @@ import { auth } from '../../firebase/firebase.utils';
 
 import { connect } from 'react-redux';
 import {createStructuredSelector} from 'reselect';
-import {selectCurrentUser} from '../../redux/user/user.selectors';
 import {selectCartHidden} from '../../redux/cart/cart.selectors';
+import CurrentUserContext from '../../contexts/currentUser/current-user.context';
+import {CartContext} from '../../providers/cart.provider';
 
-const Header = ({ currentUser, hidden }) => (
-    <div className='header'>
-        <Link to='/' className='logo-container'>
-            <Logo className='logo' />
-        </Link>
-        <div className='options'>
-            <Link to='/shop' className='option'>SHOP</Link>
-            <Link to='/shop' className='option'>Contact</Link>
-            {
-                currentUser ?
-                    <div className='option' onClick={() => auth.signOut()}>Sign Out</div>
-                    :
-                    <Link to='/signin' className='option'>Sign In</Link>
-            }
-            <CartIcon />
+const Header = () => {
+    const currentUser = React.useContext(CurrentUserContext);
+    const { hidden } = React.useContext(CartContext);
+
+    return(
+        <div className='header'>
+            <Link to='/' className='logo-container'>
+                <Logo className='logo' />
+            </Link>
+            <div className='options'>
+                <Link to='/shop' className='option'>SHOP</Link>
+                <Link to='/shop' className='option'>Contact</Link>
+                {
+                    currentUser ?
+                        <div className='option' onClick={() => auth.signOut()}>Sign Out</div>
+                        :
+                        <Link to='/signin' className='option'>Sign In</Link>
+                }
+                <CartIcon />
+            </div>
+            {hidden ? null : <CartDropdown />}
         </div>
-        {hidden ? null : <CartDropdown />}
-    </div>
-);
+)};
 
 const mapStateToProps = createStructuredSelector(  //createStructuredSelector will automatically pass state to selector methods
     {
-        currentUser: selectCurrentUser,
         hidden: selectCartHidden
     }
 )
