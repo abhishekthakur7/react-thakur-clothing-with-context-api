@@ -8,8 +8,7 @@ import {withRouter} from 'react-router-dom';
 
 import {CartContext} from '../../providers/cart.provider';
 
-const CartDropdown = ({history, dispatch}) => {  //dispatch is available in props if we don't
-// pass second parameter to connect method. This is shorthand method for dispatch
+const CartDropdown = ({ history }) => {
     const {cartItems, toggleHidden} = useContext(CartContext);
     return (
         <div className='cart-dropdown'>

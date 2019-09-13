@@ -1,5 +1,5 @@
 import React, {createContext, useEffect, useState} from 'react'
-import { addItemToCart, removeItemsFromCart, filterItemFromCart, getCartItemsCount } from './cart.utils';
+import { addItemToCart, removeItemsFromCart, filterItemFromCart, getCartItemsCount, getCartTotal } from './cart.utils';
 
 export const CartContext = createContext({
     hidden:true,
@@ -20,6 +20,7 @@ const CartProvider = ({ children }) => {
     const removeItem = item => setCartItems(removeItemsFromCart(cartItems, item));
     const toggleHidden = () => setHidden(!hidden);
     const clearItemFromCart = item => setCartItems(filterItemFromCart(cartItems, item));
+    const cartTotalPrice = getCartTotal(cartItems);
 
     useEffect(() => {
         setCartItemsCount(getCartItemsCount(cartItems))
@@ -32,7 +33,8 @@ const CartProvider = ({ children }) => {
         addItem,
         removeItem,
         cartItemsCount,
-        clearItemFromCart
+        clearItemFromCart,
+        cartTotalPrice
     }}>
         {children}
     </CartContext.Provider>)

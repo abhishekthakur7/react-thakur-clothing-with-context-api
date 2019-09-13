@@ -31,3 +31,8 @@ export const filterItemFromCart = (cartItems, item) => cartItems.filter(
 export const getCartItemsCount =  cartItems => 
     cartItems.reduce((accumulatedQuant, cartItem) => 
         accumulatedQuant + cartItem.quantity, 0);
+
+
+//This output selector will return total price for all items added in cart
+export const getCartTotal = cartItems => 
+    cartItems.reduce((accumulatedQuant, cartItem) => accumulatedQuant + cartItem.quantity * cartItem.price, 0);
